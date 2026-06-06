@@ -11,6 +11,14 @@ const HOST = env.HOST || process.env.HOST || "0.0.0.0";
 const FRONTEND_ORIGIN = env.FRONTEND_ORIGIN || process.env.FRONTEND_ORIGIN || "*";
 
 const routes = [
+  function rootRoute(req, res, requestUrl) {
+    if (req.method !== "GET" || requestUrl.pathname !== "/") {
+      return false;
+    }
+
+    sendJson(res, 200, { ok: true, service: "hash backend" });
+    return true;
+  },
   createHealthRoute({ sendJson }),
   createHashRoute({ createHashPath, normalizePage, sendJson }),
 ];
